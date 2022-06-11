@@ -44,43 +44,15 @@ class PersonalController extends Controller {
 //    public function create()
     public function staffList()  //for admin
     {
-        $dropDown_dept = Department::lists('department', 'id');
-        $dropDown_role = Role::lists('role', 'id');
-//        $dropDown_sv = User::lists('name', 'id');
+        $dropDown_dept = Department::pluck('department', 'id');
+        $dropDown_role = Role::pluck('role', 'id');
+//        $dropDown_sv = User::pluck('name', 'id');
         $personal = Role::with('users')->where('role', 'supervisor')->get(); //get sv roles and its users
-        $dropDown_sv =  $personal[0]->users->lists('name', 'id');
+        $dropDown_sv =  $personal[0]->users->pluck('name', 'id');
 //        dd($dropDown_sv);
-
-//        //get staff's SV
-//        $staffKella = User::find(7);
-//        $staffKella = $staffKella->theSupervisors;
-////        dd($staffKella);
-//        if(sizeof($staffKella)!=0)
-//        {
-//            $kellaSV = $staffKella[0];  //staff only has 1 sv
-//            dd($kellaSV);
-//        }
-//        else
-//        {
-//            dd("noData");
-//        }
-
-//        //get sv's staff
-//        $sv1 = User::find(4);
-//        $sv_staffs = $sv1->theStaffs;
-//        dd($sv_staffs);
-
-//        $staffKella = User::find(7);
-//        $test = $staffKella->roles->first();
-//        dd($test);
 
         $sv_staffs = User::all();
 
-//        foreach($sv_staffs as $x)
-//        {
-//            $test = $x->roles->first()->id;
-//            dd($test);
-//        }
 
 //        return view('personal.staff_list_for_Admin',compact('sv_staffs'));
         return view('personal.staff_list_for_Admin',compact('dropDown_dept','dropDown_role','dropDown_sv','sv_staffs'));
@@ -292,7 +264,7 @@ class PersonalController extends Controller {
         })->get();
 
         $month = Identifier::where('type', 'month')->get();
-        $dropDown_month = $month->lists('name', 'code');
+        $dropDown_month = $month->pluck('name', 'code');
 
         return view('personal.staffSalary',compact('staff','dropDown_month'));
     }
@@ -346,4 +318,3 @@ class PersonalController extends Controller {
     }
 
 }
-

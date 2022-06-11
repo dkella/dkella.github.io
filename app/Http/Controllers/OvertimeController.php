@@ -44,7 +44,7 @@ class OvertimeController extends Controller {
         $personal = \Auth::user();
         $state = "add";
         $otConfig= Otconfig::all();
-        $dropDown_otRate = Otconfig::lists('description', 'typeOT');
+        $dropDown_otRate = Otconfig::pluck('description', 'typeOT');
 //        $claim=$personal->claims->first();
 //        $otClaim = $claim->otclaim->first();
 //        dd($otClaim);
@@ -67,7 +67,7 @@ class OvertimeController extends Controller {
         $claims = Claim::find($id);
         $state = "update";
         $otConfig= Otconfig::all();
-        $dropDown_otRate = Otconfig::lists('description', 'typeOT');
+        $dropDown_otRate = Otconfig::pluck('description', 'typeOT');
         $month = DB::table('identifiers')->where('type', 'month')
                                         ->where('code',$claims->month)
                                         ->first();
@@ -82,7 +82,7 @@ class OvertimeController extends Controller {
         $personal = $claims->users;
 //        $state = "update";
         $otConfig= Otconfig::all();
-        $dropDown_otRate = Otconfig::lists('description', 'typeOT');
+        $dropDown_otRate = Otconfig::pluck('description', 'typeOT');
         $month = DB::table('identifiers')->where('type', 'month')
             ->where('code',$claims->month)
             ->first();
@@ -152,7 +152,7 @@ class OvertimeController extends Controller {
         }*/
 
         $month = Identifier::where('type', 'month')->get();
-        $dropDown_month = $month->lists('name', 'code');
+        $dropDown_month = $month->pluck('name', 'code');
 //        dd($dropDown_month);
 
         $status = DB::table('identifiers')->where('type', 'claim_status')->get();
@@ -250,7 +250,7 @@ class OvertimeController extends Controller {
         }
 
         $month = Identifier::where('type', 'month')->get();
-        $dropDown_month = $month->lists('name', 'code');
+        $dropDown_month = $month->pluck('name', 'code');
 //        dd($dropDown_month);
 
         $status = DB::table('identifiers')->where('type', 'claim_status')->get();
@@ -290,9 +290,9 @@ class OvertimeController extends Controller {
         $sv_staffs = $sv->theStaffs;
 //        dd($sv_staffs);
         $month = Identifier::where('type', 'month')->get();
-        $dropDown_month = $month->lists('name', 'code');
+        $dropDown_month = $month->pluck('name', 'code');
 
-        $dropDown_staff =$sv_staffs->lists('name','id');
+        $dropDown_staff =$sv_staffs->pluck('name','id');
 
 
         return view('claimOvertime.report',compact('sv_staffs','dropDown_month','dropDown_staff'));
@@ -373,9 +373,9 @@ class OvertimeController extends Controller {
         })->get();
 
         $month = Identifier::where('type', 'month')->get();
-        $dropDown_month = $month->lists('name', 'code');
+        $dropDown_month = $month->pluck('name', 'code');
 
-        $dropDown_staff =$sv_staffs->lists('name','id');
+        $dropDown_staff =$sv_staffs->pluck('name','id');
 
         //get dropdownlist of sv
         $sv = User::whereHas('roles',function($q)
@@ -384,9 +384,9 @@ class OvertimeController extends Controller {
                 $query->where('role_id', '=', 3);   //3-sv
             });
         })->get();
-        $dropDown_sv =$sv->lists('name','id');
+        $dropDown_sv =$sv->pluck('name','id');
 
-        $dropDown_task = Task::lists('task_name','id');
+        $dropDown_task = Task::pluck('task_name','id');
 
         return view('claimOvertime.fm_report',compact('sv_staffs','dropDown_month','dropDown_staff','dropDown_sv','dropDown_task'));
     }
@@ -415,7 +415,7 @@ class OvertimeController extends Controller {
             ->where('identifiers.type', '=', "month")
             ->groupBy('identifiers.name')
             ->selectRaw('sum(claims.total) as total, identifiers.name')
-//            ->lists('total','identifiers.name');
+//            ->pluck('total','identifiers.name');
             ->orderBy('claims.month')
             ->get();
 //dd($result);
@@ -529,7 +529,7 @@ class OvertimeController extends Controller {
         $claims = Claim::find($id);
         $state = "update";
         $otConfig= Otconfig::all();
-        $dropDown_otRate = Otconfig::lists('description', 'typeOT');
+        $dropDown_otRate = Otconfig::pluck('description', 'typeOT');
         $month = DB::table('identifiers')->where('type', 'month')
             ->where('code',$claims->month)
             ->first();

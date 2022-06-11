@@ -1,7 +1,7 @@
 
 <!-- Plate Number Form Input -->
 <div class="form-group">
-    {!! Form::label('plateNo','Nombor　Plate:',['class' => 'col-sm-6']) !!}
+    {!! Form::label('plateNo','Nombor Plate:',['class' => 'col-sm-6']) !!}
     <div class="col-sm-6">
         {!! Form::text('plateNo',null,['class' => 'form-control']) !!}
     </div>

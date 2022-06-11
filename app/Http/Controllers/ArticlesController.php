@@ -71,7 +71,7 @@ class ArticlesController extends Controller {
         }
         */
         //$tags = \App\Tag::all();
-        $tags = \App\Tag::lists('name','id');
+        $tags = \App\Tag::pluck('name','id');
         return view('articles.create', compact('tags'));
     }
     function store(ArticleRequest $request){
@@ -126,7 +126,7 @@ class ArticlesController extends Controller {
     }
 //    function edit($id){
     public function edit(Article $article){
-        $tags = \App\Tag::lists('name','id');
+        $tags = \App\Tag::pluck('name','id');
 //        $article=Article::findOrFail($id);
         return view('articles.edit',compact('article','tags'));
     }

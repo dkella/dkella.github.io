@@ -52,7 +52,7 @@ class MileageController extends Controller {
             ->first();
 //        dd($month->name);
         $vehicle = $personal->vehicles;
-        $dropDown_task = Task::lists('task_name', 'id');
+        $dropDown_task = Task::pluck('task_name', 'id');
 //        dd($dropDown_task);
 
 //        return view('claimOverTime.create',compact('personal','claims','state','otConfig','dropDown_otRate','month'));
@@ -71,7 +71,7 @@ class MileageController extends Controller {
             ->first();
 //        dd($month);
         $vehicle = $personal->vehicles;
-        $dropDown_task = Task::lists('task_name', 'id');
+        $dropDown_task = Task::pluck('task_name', 'id');
 
 //        //testing
 //        $travel_claim = $claims->travelclaim[0];
@@ -143,7 +143,7 @@ class MileageController extends Controller {
 //        dd($claims);
 
         $month = Identifier::where('type', 'month')->get();
-        $dropDown_month = $month->lists('name', 'code');
+        $dropDown_month = $month->pluck('name', 'code');
 //        dd($dropDown_month);
 
         $status = DB::table('identifiers')->where('type', 'claim_status')->get();
@@ -244,7 +244,7 @@ class MileageController extends Controller {
 //        dd($claims);
 
         $month = Identifier::where('type', 'month')->get();
-        $dropDown_month = $month->lists('name', 'code');
+        $dropDown_month = $month->pluck('name', 'code');
 //        dd($dropDown_month);
 
         $status = DB::table('identifiers')->where('type', 'claim_status')->get();
@@ -287,9 +287,9 @@ class MileageController extends Controller {
         $sv_staffs = $sv->theStaffs;
 //        dd($sv_staffs);
         $month = Identifier::where('type', 'month')->get();
-        $dropDown_month = $month->lists('name', 'code');
+        $dropDown_month = $month->pluck('name', 'code');
 
-        $dropDown_staff =$sv_staffs->lists('name','id');
+        $dropDown_staff =$sv_staffs->pluck('name','id');
 
 
         return view('claimMileage.report',compact('sv_staffs','dropDown_month','dropDown_staff'));
@@ -360,9 +360,9 @@ class MileageController extends Controller {
         })->get();
 
         $month = Identifier::where('type', 'month')->get();
-        $dropDown_month = $month->lists('name', 'code');
+        $dropDown_month = $month->pluck('name', 'code');
 
-        $dropDown_staff =$sv_staffs->lists('name','id');
+        $dropDown_staff =$sv_staffs->pluck('name','id');
 
         //get dropdownlist of sv
         $sv = User::whereHas('roles',function($q)
@@ -371,9 +371,9 @@ class MileageController extends Controller {
                 $query->where('role_id', '=', 3);   //3-sv
             });
         })->get();
-        $dropDown_sv =$sv->lists('name','id');
+        $dropDown_sv =$sv->pluck('name','id');
 
-        $dropDown_task = Task::lists('task_name','id');
+        $dropDown_task = Task::pluck('task_name','id');
 
         return view('claimMileage.fm_report',compact('sv_staffs','dropDown_month','dropDown_staff','dropDown_sv','dropDown_task'));
     }
@@ -403,7 +403,7 @@ class MileageController extends Controller {
             ->where('identifiers.type', '=', "month")
             ->groupBy('identifiers.name')
             ->selectRaw('sum(claims.total) as total, identifiers.name')
-//            ->lists('total','identifiers.name');
+//            ->pluck('total','identifiers.name');
             ->orderBy('claims.month')
             ->get();
 //dd($result);
@@ -495,7 +495,7 @@ class MileageController extends Controller {
             ->first();
 //        dd($month);
         $vehicle = $personal->vehicles;
-        $dropDown_task = Task::lists('task_name', 'id');
+        $dropDown_task = Task::pluck('task_name', 'id');
 
         return view('claimMileage.correction',compact('personal','claims','state','month','travelConfig','vehicle','dropDown_task'));
     }
